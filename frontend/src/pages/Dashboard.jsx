@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import API_BASE from '../api';
 import { Package, FileText, CheckCircle, AlertTriangle, AlertOctagon, Upload, Activity, XCircle } from 'lucide-react';
 
 const Dashboard = () => {
@@ -20,7 +21,7 @@ const Dashboard = () => {
 
   const fetchHistory = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/inspections?inspectorEmail=${userEmail}`);
+      const response = await fetch(`${API_BASE}/api/inspections?inspectorEmail=${userEmail}`);
       if (response.ok) {
         const data = await response.json();
         setHistory(data);
@@ -39,7 +40,7 @@ const Dashboard = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch('http://localhost:5000/api/evaluate', {
+      const response = await fetch(`${API_BASE}/api/evaluate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, inspectorEmail: userEmail })

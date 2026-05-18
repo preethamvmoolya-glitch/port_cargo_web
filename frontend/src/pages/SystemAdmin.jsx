@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import API_BASE from '../api';
 import { Database, Users, ShieldAlert, CheckCircle, XCircle, Mail, Key } from 'lucide-react';
 
 const SystemAdmin = () => {
@@ -13,22 +14,22 @@ const SystemAdmin = () => {
   }, []);
 
   const fetchLogs = async () => {
-    const res = await fetch('http://localhost:5000/api/logs');
+    const res = await fetch(`${API_BASE}/api/logs`);
     if(res.ok) setLogs(await res.json());
   };
 
   const fetchUsers = async () => {
-    const res = await fetch('http://localhost:5000/api/users');
+    const res = await fetch(`${API_BASE}/api/users`);
     if(res.ok) setUsers(await res.json());
   };
 
   const fetchInspections = async () => {
-    const res = await fetch('http://localhost:5000/api/inspections');
+    const res = await fetch(`${API_BASE}/api/inspections`);
     if(res.ok) setInspections(await res.json());
   };
 
   const handleApproveUser = async (id) => {
-    await fetch('http://localhost:5000/api/users', {
+    await fetch(`${API_BASE}/api/users`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id, action: 'approve' })
@@ -38,7 +39,7 @@ const SystemAdmin = () => {
   };
 
   const handleToggle2FA = async (id) => {
-    await fetch('http://localhost:5000/api/users', {
+    await fetch(`${API_BASE}/api/users`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id, action: 'toggle_2fa' })
@@ -48,7 +49,7 @@ const SystemAdmin = () => {
   };
 
   const handleDeleteUser = async (id) => {
-    await fetch(`http://localhost:5000/api/users?id=${id}`, { method: 'DELETE' });
+    await fetch(`${API_BASE}/api/users?id=${id}`, { method: 'DELETE' });
     fetchUsers();
     fetchLogs();
   };

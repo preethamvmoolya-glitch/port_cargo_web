@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import API_BASE from '../api';
 import { ShieldCheck, XCircle, AlertTriangle, Activity, Package, CheckCircle, Database, ShieldAlert } from 'lucide-react';
 
 const PortAuthority = () => {
@@ -11,14 +12,14 @@ const PortAuthority = () => {
   }, []);
 
   const fetchInspections = async () => {
-    const res = await fetch('http://localhost:5000/api/inspections');
+    const res = await fetch(`${API_BASE}/api/inspections`);
     if (res.ok) setInspections(await res.json());
   };
 
   const handleReview = async (status) => {
     if (!selectedInspection) return;
     
-    await fetch('http://localhost:5000/api/inspections/review', {
+    await fetch(`${API_BASE}/api/inspections/review`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: selectedInspection.id, status, notes })
